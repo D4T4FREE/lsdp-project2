@@ -78,11 +78,29 @@ object main{
     }
 
     def +(that: BJKSTSketch): BJKSTSketch = {    /* Merging two sketches */
-      return that
+      var merge_z = scala.math.min(z, that.z)
+      var merge_B = bucket ++ that.bucket
+
+      while (merge_B.count(x => x == x) >= BJKST_bucket_size) {
+        merge_z += 1
+        merge_B = merge_B.filter(f => f._2 >= merge_z)
+      }
+
+      val ans = new BJKSTSketch(merge_B, merge_z, BJKST_bucket_size)
+      return ans
     }
 
-    def add_string(s: String, z_of_s: Int): BJKSTSketch = {   /* add a string to the sketch */
-      return this
+    def add_string(s: String, z_of_s: Int): BJKSTSketch = {
+      if (z_of_s >= z) {
+        bucket = bucket ++ Set[(String, Int)]((s, z_of_s))
+        while (bucket.count(x => x == x) >= BJKST_bucket_size) {
+          z += 1
+          bucket = bucket.filter(f => f._2 >= z)
+        }
+      }
+
+      val ans = new BJKSTSketch(bucket, z, BJKST_bucket_size)
+      return ans
     }
   }
 
@@ -101,7 +119,16 @@ object main{
 
 
   def BJKST(x: RDD[String], width: Int, trials: Int) : Double = {
-    return 0
+    /* this also doesnt work right now */
+    val h = Seq.fill(trials)(new hash_function(width))
+
+    def param0 = (accu1: Seq[BJKSTSketch], accu2: Seq[BJKSTSketch]) => Seq.range(0,trials).map(i => accu1(i) + accu2(i))
+    def param1 = (accu1: Seq[BJKSTSketch], s: String) => Seq.range(0,trials).map( i => accu1(i).add_string(s, h(i).zeroes(h(i).hash(s))) )
+
+    val x3 = x.aggregate(Seq.range(0, trials).map(i => new BJKSTSketch(x.first, h(i).zeroes(h(i).hash(x.first)), width)))( param1, param0)
+    val ans = x3.map(z => width * scala.math.pow(z.z, 2)).sortWith(_ < _)( trials/2) /* Take the median of the trials */
+
+    return ans
   }
 
 
