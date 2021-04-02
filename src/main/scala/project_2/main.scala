@@ -106,11 +106,11 @@ object main{
 
   def Tug_of_War(x: RDD[String], width: Int, depth:Int) : Long = {
     // initialize the seq of hash functions of length width*Depth
-    // on that same seq, run the tugofwar on x to get z^2
-    val h = Seq.fill(width * depth)(scala.math.pow(x.map(z => new four_universal_Radamacher_hash_function().hash(z)).reduceByKey(_ + _), 2))
+    val h = Seq.fill(width * depth)(new four_universal_Radamacher_hash_function())
 
+    // on that same seq, run the tugofwar on x to get z^2
     // now split into groups of size width
-    val avgs = h.sliding(width)
+    val avgs = h.map(f => scala.math.pow(x.map(z => f.hash(z)).reduceByKey(_ + _), 2)).sliding(width)
 
     // find the means, return the median of the count=depth numbers
     val ans = avgs.map(f => (f.sum()) / width).sortWith(_ < _)( depth/2)
