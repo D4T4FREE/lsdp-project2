@@ -78,11 +78,11 @@ object main{
     }
 
     def +(that: BJKSTSketch): BJKSTSketch = {    /* Merging two sketches */
-
+      return that
     }
 
     def add_string(s: String, z_of_s: Int): BJKSTSketch = {   /* add a string to the sketch */
-
+      return this
     }
   }
 
@@ -122,7 +122,7 @@ object main{
 
 
   def exact_F2(x: RDD[String]) : Long = {
-    val ans= x.map(f=>f,1).reduceByKey(_ + _)
+    val ans= x.map(f => (f,1)).reduceByKey(_ + _).map(f => scala.math.pow(f._2,2)).collect().sum.toLong
     return ans
   }
 
