@@ -3,6 +3,7 @@ package project_2
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import org.apache.spark.rdd._
+import org.apache.spark.SparkContext._
 
 
 object main{
@@ -100,20 +101,16 @@ object main{
 
 
   def BJKST(x: RDD[String], width: Int, trials: Int) : Double = {
-
+    return 0
   }
 
 
   def Tug_of_War(x: RDD[String], width: Int, depth:Int) : Long = {
-    // initialize the seq of hash functions of length width*Depth
     val h = Seq.fill(width * depth)(new four_universal_Radamacher_hash_function())
 
-    // on that same seq, run the tugofwar on x to get z^2
-    // now split into groups of size width
-    val avgs = h.map(f => scala.math.pow(x.map(z => f.hash(z)).reduceByKey(_ + _), 2)).sliding(width)
+    val avgs = h.map(f => scala.math.pow(x.map(z => f.hash(z)).reduce(_ + _), 2)).sliding(width)
 
-    // find the means, return the median of the count=depth numbers
-    val ans = avgs.map(f => (f.sum()) / width).sortWith(_ < _)( depth/2)
+    val ans = avgs.map(f => f.sum / width).toSeq.sortWith(_ < _)( depth/2).toLong
     return ans
   }
 
