@@ -105,7 +105,10 @@ object main{
 
 
   def Tug_of_War(x: RDD[String], width: Int, depth:Int) : Long = {
-
+    // initialize the seq of hash functions of length width*Depth
+    // on that same seq, run the tugofwar on x to get z^2
+    // now split into groups of size width, find the mean
+    // return the median of the count=depth numbers
   }
 
 
@@ -210,4 +213,3 @@ object main{
 
   }
 }
-
