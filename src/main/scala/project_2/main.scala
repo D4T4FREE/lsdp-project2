@@ -126,7 +126,7 @@ object main{
     def param1 = (accu1: Seq[BJKSTSketch], s: String) => Seq.range(0,trials).map( i => accu1(i).add_string(s, h(i).zeroes(h(i).hash(s))) )
 
     val x3 = x.aggregate(Seq.range(0, trials).map(i => new BJKSTSketch(x.first, h(i).zeroes(h(i).hash(x.first)), width)))( param1, param0)
-    val ans = x3.map(z => width * scala.math.pow(z.z, 2)).sortWith(_ < _)( trials/2) /* Take the median of the trials */
+    val ans = x3.map(z => width * scala.math.pow(2, z.z)).sortWith(_ < _)( trials/2) /* Take the median of the trials */
 
     return ans
   }
