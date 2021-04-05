@@ -67,8 +67,10 @@ BJKST Algorithm. Bucket Size:5787. Trials:5. Time elapsed:62s. Estimate: 5925888
 ### Problem 4
 **(1 point)** Compare the BJKST algorithm to the exact F0 algorithm and the tug-of-war algorithm to the exact F2 algorithm. Summarize your findings.
 ```
-The BJKST algorithm and F0 algorithm do essentially the same thing where they are outputting the number of distinct counts of the file 2014to2017. The exact F0 algorithm is
-essentially counting every value in the file whereas BJKST is taking only a snippet of the stream and finding the median. The ToW algorithm does the same with the F2 algorithm,
-in that Tow is a rough estimation of the actual F2 value while the F2 algorithm does the counting directly. Also, the F0 and F2 algorithms seem to have compiled much faster than
-the BJKST and ToW algorithm, most likely due to having a faster runtime with in-built functions.
+The BJKST algorithm and F0 algorithm do essentially the same thing where they are outputting the number of distinct counts of the file 2014to2017.
+The exact F0 algorithm isessentially counting every value in the file whereas BJKST is taking only a snippet of the stream and finding the median.
+The ToW algorithm does the same with the F2 algorithm, in that Tow is a rough estimation of the actual F2 value while the F2 algorithm does the
+counting directly. Also, the F0 and F2 algorithms seem to have compiled much faster than the BJKST and ToW algorithm, most likely due to having
+a faster runtime with in-built functions. It is important to note that since the BJKST algorithm and the ToW algorithm are only estimates that
+take only a portion of a stream they will not be the same and have precise values as the F0 and F2 algorithms.
 ```
