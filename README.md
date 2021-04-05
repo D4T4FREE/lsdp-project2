@@ -47,6 +47,6 @@ BJKST Algorithm. Bucket Size:5787. Trials:5. Time elapsed:62s. Estimate: 5925888
 ==================================
 ```
   - The number 5787 was derived from the following: Let us denote D as the output of the BJKST algorithm where
-  - <img src="https://latex.codecogs.com/gif.latex?D=Y_T 2^T " /> 
+  - <img src="https://latex.codecogs.com/png.latex?D=Y_T%202^T" /> 
 
 4. **(1 point)** Compare the BJKST algorithm to the exact F0 algorithm and the tug-of-war algorithm to the exact F2 algorithm. Summarize your findings.
